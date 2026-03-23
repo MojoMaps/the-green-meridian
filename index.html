@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌿 The Green Meridian — Morgan's Morning Brief</title>
+<title>🌿 The Green Meridian — Your Morning Brief</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
@@ -438,6 +438,16 @@
   document.getElementById('date-full').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 })();
 
+// API key — asked once on first visit, saved silently in localStorage forever after
+(function() {
+  if (!localStorage.getItem('tgm_key')) {
+    const k = prompt('🌿 Welcome to The Green Meridian!\n\nPaste your Anthropic API key to get started.\nGet one free at console.anthropic.com\n\n(You\'ll only be asked this once — it saves in your browser)');
+    if (k && k.trim()) localStorage.setItem('tgm_key', k.trim());
+  }
+})();
+
+function getKey() { return localStorage.getItem('tgm_key') || ''; }
+
 
 const LOADING_MSGS = [
   "Analyzing spatial relationships…",
@@ -451,6 +461,11 @@ const LOADING_MSGS = [
 ];
 
 async function generateNewsletter() {
+  const apiKey = getKey();
+  if (!apiKey) {
+    alert('No API key found. Please refresh the page to enter your key.');
+    return;
+  }
   const btn = document.getElementById('gen-btn');
   const loading = document.getElementById('loading');
   const content = document.getElementById('newsletter-content');
@@ -522,7 +537,12 @@ Make the GISP question genuinely challenging — exam-level difficulty. Rotate t
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1800,
