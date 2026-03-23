@@ -1,0 +1,11 @@
+# Mac
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Never commit API keys!
+.env
+*.env
+secrets.js
