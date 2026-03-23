@@ -369,6 +369,25 @@
   }
   .footer strong { color: var(--sage); }
 
+  /* ── READ MORE LINK ── */
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    text-decoration: none;
+    color: var(--sage);
+    letter-spacing: 0.3px;
+    transition: gap .15s, opacity .15s;
+    opacity: 0.85;
+  }
+  .read-more:hover { gap: 8px; opacity: 1; }
+  .sec-news .read-more { color: var(--sky); }
+  .sec-happy .read-more { color: var(--rose); }
+
   /* ── ERROR ── */
   .error-box {
     display: none;
@@ -505,12 +524,16 @@ JSON structure:
   "gis_news": {
     "headline": "Compelling headline about recent GIS, spatial technology, or remote sensing development",
     "tag": "SPATIAL TECH / REMOTE SENSING / GIS SOFTWARE (pick one)",
-    "body": "2-3 sentences covering the topic. Make it genuinely interesting and specific — mention real technologies, datasets, or research trends like LiDAR, GEDI, ML-based canopy detection, open data platforms, digital twins, etc."
+    "body": "2-3 sentences covering the topic. Make it genuinely interesting and specific — mention real technologies, datasets, or research trends like LiDAR, GEDI, ML-based canopy detection, open data platforms, digital twins, etc.",
+    "source_url": "A real, working URL to the source article, dataset page, tool documentation, or organization. Use well-known domains: esri.com, usgs.gov, nasa.gov, ogc.org, github.com, nature.com, arxiv.org, etc.",
+    "source_label": "Short readable label e.g. 'ESRI Blog', 'NASA Earthdata', 'OGC Standards'"
   },
   "forestry_news": {
     "headline": "Compelling headline about urban forestry, tree canopy equity, i-Tree, LiDAR for forestry, new datasets, or university/public research",
     "tag": "URBAN FORESTRY / CANOPY EQUITY / RESEARCH (pick one)",
-    "body": "2-3 sentences. Specifically relevant to: urban tree canopy equity, cutting-edge technology in urban forestry, new research datasets that could enhance canopy assessments (NLCD updates, GEDI canopy height, municipal LiDAR programs), environmental justice angles."
+    "body": "2-3 sentences. Specifically relevant to: urban tree canopy equity, cutting-edge technology in urban forestry, new research datasets that could enhance canopy assessments (NLCD updates, GEDI canopy height, municipal LiDAR programs), environmental justice angles.",
+    "source_url": "A real, working URL to the source — itreetools.org, fs.usda.gov, nature.com, a university lab page, data.gov, or a municipal open data portal. Must be a real URL.",
+    "source_label": "Short readable label e.g. 'USDA Forest Service', 'i-Tree Tools', 'Urban Forestry Lab'"
   },
   "manager_tip": {
     "quote": "A punchy, memorable quote or principle about management (can be original or attributed)",
@@ -521,7 +544,9 @@ JSON structure:
     "emoji": "An appropriate emoji",
     "category": "WOMEN IN STEM / COOL SCIENCE / ENVIRONMENTAL JUSTICE (pick one)",
     "headline": "Uplifting headline",
-    "body": "2-3 sentences of genuinely good news. For Women in STEM: highlight achievements, funding, research milestones. For Cool Science: surprising or delightful discovery. For Environmental Justice: meaningful progress on equity, community wins, policy advances."
+    "body": "2-3 sentences of genuinely good news. For Women in STEM: highlight achievements, funding, research milestones. For Cool Science: surprising or delightful discovery. For Environmental Justice: meaningful progress on equity, community wins, policy advances.",
+    "source_url": "A real, working URL to the source article or organization page. For Women in STEM: use sites like nature.com, sciencenews.org, theatlantic.com, awis.org, womeninstem.org. Must be a real URL.",
+    "source_label": "Short readable label e.g. 'Science News', 'Nature', 'AWIS'"
   },
   "spanish_word": {
     "word": "A Spanish word",
@@ -617,6 +642,7 @@ function renderNewsletter(nl) {
         <div class="news-tag">${escHtml(nl.gis_news.tag)}</div>
         <div class="news-headline">${escHtml(nl.gis_news.headline)}</div>
         <div class="news-body">${escHtml(nl.gis_news.body)}</div>
+        ${nl.gis_news.source_url ? `<a class="read-more" href="${nl.gis_news.source_url}" target="_blank" rel="noopener">Read more → ${escHtml(nl.gis_news.source_label || '')}</a>` : ''}
       </div>
     </div>
 
@@ -630,6 +656,7 @@ function renderNewsletter(nl) {
         <div class="news-tag">${escHtml(nl.forestry_news.tag)}</div>
         <div class="news-headline">${escHtml(nl.forestry_news.headline)}</div>
         <div class="news-body">${escHtml(nl.forestry_news.body)}</div>
+        ${nl.forestry_news.source_url ? `<a class="read-more" href="${nl.forestry_news.source_url}" target="_blank" rel="noopener">Read more → ${escHtml(nl.forestry_news.source_label || '')}</a>` : ''}
       </div>
     </div>
 
@@ -658,6 +685,7 @@ function renderNewsletter(nl) {
           <div class="news-tag" style="color:var(--rose)">${escHtml(nl.happy_news.category)}</div>
           <div class="happy-headline">${escHtml(nl.happy_news.headline)}</div>
           <div class="happy-body">${escHtml(nl.happy_news.body)}</div>
+          ${nl.happy_news.source_url ? `<a class="read-more" href="${nl.happy_news.source_url}" target="_blank" rel="noopener">Read more → ${escHtml(nl.happy_news.source_label || '')}</a>` : ''}
         </div>
       </div>
     </div>
